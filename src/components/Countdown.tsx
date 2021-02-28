@@ -1,5 +1,7 @@
 import { useContext } from 'react';
 import { CountdownContext } from '../contexts/CountdownContext';
+
+import { MdClose } from 'react-icons/md';
 import styles from '../styles/components/Countdown.module.css';
 
 
@@ -36,7 +38,7 @@ export function Countdown() {
           className={`${styles.countdownButton} ${styles.countdownButtonFinished}`}
         >
           Ciclo encerrado
-          <img src="icons/check-circle.svg" alt="check-icon"/>
+          <img src="icons/check-circle.svg" alt="cross-icon"/>
         </button>
       ) : (
         <>
@@ -47,7 +49,7 @@ export function Countdown() {
               onClick={resetCountdown}
             >
             Abandonar ciclo
-            <img src="icons/cross.svg" alt="cross-icon"/>
+            <MdClose/>
           </button>
           ) : (
             <button
