@@ -1,14 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
-import styles from '../styles/pages/Login.module.css';
+import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
 import { Container, Section, GithubText, InputAndButton } from '../styles/pages/Login';
 
 export default function Login() {
+  const router = useRouter();
   const [user, setUser] = useState('');
   const [isFilled, setIsFilled] = useState(false);
-
-  const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setUser(event.target.value);
-  }, []);
 
   useEffect(() => {
     if (user.length === 0) {
@@ -16,6 +14,16 @@ export default function Login() {
     } else {
       setIsFilled(true);
     }
+  }, [user]);
+
+  const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    setUser(event.target.value);
+  }, []);
+
+  const handleSubmit = useCallback((event) => {
+    event.preventDefault();
+    Cookies.set('user', user);
+    router.push('/');
   }, [user]);
 
   return (
@@ -29,12 +37,14 @@ export default function Login() {
           <img src="/icons/github.svg" alt="Github"/>
           <p>Faça login com seu github para começar</p>
         </GithubText>
-        <InputAndButton isFilled={isFilled}>
-          <input type="text" placeholder="Digite seu username" onChange={handleInputChange}/>
-          <button type="button">
-            <img src="/icons/arrow.svg" alt="Arrow"/>
-          </button>
-        </InputAndButton>
+        <form onSubmit={handleSubmit}>
+          <InputAndButton isFilled={isFilled}>
+              <input type="text" placeholder="Digite seu username" onChange={handleInputChange}/>
+              <button type="submit">
+                <img src="/icons/arrow.svg" alt="Arrow"/>
+              </button>
+          </InputAndButton>
+        </form>
       </Section>
     </Container>
   );
